@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -177,6 +178,15 @@ public class AddressBookService {
 	public boolean checkContactDataSync(String firstName) {
 		List<Contact> list = addressBookDB.getContactFromData(firstName);
 		return list.get(0).equals(getContactData(firstName));
+	}
+	/**
+	 * Find contact registered in specific period
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	public List<Contact> readContactForDateRange(LocalDate start, LocalDate end) {
+		return addressBookDB.getContactForDateRange(start, end);
 	}
 }
 

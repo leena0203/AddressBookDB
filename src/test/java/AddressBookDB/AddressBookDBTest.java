@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.Before;
@@ -29,5 +30,12 @@ public class AddressBookDBTest {
 		test.updateContactAddress("Alex", "9430298574");
 		boolean result = test.checkContactDataSync("Alex");
 		assertTrue(result);
+	}
+	@Test
+	public void givenContactInDB_WhenRetrievedForDateRange_ShouldMatchContactCount() {
+		LocalDate start = LocalDate.of(2020, 01, 01);
+	    LocalDate end = LocalDate.now();
+	    testData = test.readContactForDateRange(start, end);
+	    assertEquals(3, testData.size());
 	}
 }

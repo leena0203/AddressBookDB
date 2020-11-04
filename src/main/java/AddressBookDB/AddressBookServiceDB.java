@@ -1,12 +1,14 @@
 package AddressBookDB;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -100,6 +102,12 @@ public class AddressBookServiceDB {
 			e.printStackTrace();
 		}
 		return contactList;	
+	}
+	public List<Contact> getContactForDateRange(LocalDate start, LocalDate end) {
+		String sql = String.format(
+				"select Contact.ContactId, Contact.First_Name, Contact.Last_Name, Contact.Phone_No, Contact.Email, Contact.ZIP, Contact.CITY, Contact.STATE, Contact.Address, Contact.date, Address_Book.BookId, Address_Book.AddressBookName, Address_Book.Type from Contact inner join Address_Book on Contact.ContactId = Address_Book.ContactId where date between '%s' and '%s'",
+				Date.valueOf(start), Date.valueOf(end));
+		return this.getContactData(sql);
 	}
 
 }
