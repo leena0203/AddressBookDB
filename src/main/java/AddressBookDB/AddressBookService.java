@@ -197,6 +197,11 @@ public class AddressBookService {
 	public List<Contact> getContactForCityAndState(String city, String state) {
 		return addressBookDB.getContactForCityAndState(city, state);
 	}
+
+	public void addContactInDatabase(String firstName, String lastName, String address, String city , String state,
+			String phoneNumber, String email , String zip, LocalDate date, String bookName, String type) throws SQLException {
+		this.contactList.add(addressBookDB.addContact(firstName, lastName, address,city,state,phoneNumber,email,zip, date,bookName,type));
+	}
 }
 
 

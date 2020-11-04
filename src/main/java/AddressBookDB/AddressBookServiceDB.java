@@ -37,7 +37,7 @@ public class AddressBookServiceDB {
 		return connection;
 	}
 	public List<Contact> readData()  {
-		String sql = "select Contact.ContactId, Contact.First_Name, Contact.Last_Name, Contact.Phone_No, Contact.Email, Contact.ZIP, Contact.CITY, Contact.STATE, Contact.Address, Address_Book.BookId, Address_Book.AddressBookName, Address_Book.Type from Contact inner join Address_Book on Contact.ContactId = Address_Book.ContactId;" ;
+		String sql = "select Contact.ContactId, Contact.First_Name, Contact.Last_Name, Contact.Phone_No, Contact.Email, Contact.ZIP, Contact.CITY, Contact.STATE, Contact.Address, Address_Book.AddressBookName, Address_Book.Type from Contact inner join Address_Book on Contact.ContactId = Address_Book.ContactId;" ;
 		return this.getContactData(sql);
 	}
 	List<Contact> getContactData(String sql)  {
@@ -105,7 +105,7 @@ public class AddressBookServiceDB {
 	}
 	public List<Contact> getContactForDateRange(LocalDate start, LocalDate end) {
 		String sql = String.format(
-				"select Contact.ContactId, Contact.First_Name, Contact.Last_Name, Contact.Phone_No, Contact.Email, Contact.ZIP, Contact.CITY, Contact.STATE, Contact.Address, Contact.date, Address_Book.BookId, Address_Book.AddressBookName, Address_Book.Type from Contact inner join Address_Book on Contact.ContactId = Address_Book.ContactId where date between '%s' and '%s'",
+				"select Contact.ContactId, Contact.First_Name, Contact.Last_Name, Contact.Phone_No, Contact.Email, Contact.ZIP, Contact.CITY, Contact.STATE, Contact.Address, Contact.date, Address_Book.AddressBookName, Address_Book.Type from Contact inner join Address_Book on Contact.ContactId = Address_Book.ContactId where date between '%s' and '%s'",
 				Date.valueOf(start), Date.valueOf(end));
 		return this.getContactData(sql);
 	}
@@ -113,5 +113,66 @@ public class AddressBookServiceDB {
 		String sql = String.format("select * from contact where CITY = 'Cochin' order by First_Name,Last_name;",city, state);
 		return this.getContactData(sql);
 	}
+	public Contact addContact(String firstName, String lastName, String address, String city, String state,
+			String phoneNumber, String email,String zip, LocalDate date, String bookName, String type) throws SQLException {
+		int ContactId = -1;
+		Connection connection = null;
+		Contact contact = null;
+		connection = this.getConnection();
+		try {
+			connection.setAutoCommit(false);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try (Statement statement = connection.createStatement()) {
+			String sql = String.format("INSERT INTO Contact (ContactId, First_Name, Last_Name, Address,CITY,STATE,Phone_No,Email,ZIP,date) "
+					+ "VALUES ('%s', '%s','%s','%s','%s','%s','%s','%s','%s','%s')",
+					ContactId, firstName, lastName, address, city, state, Long.parseLong(phoneNumber), email,Long.parseLong(zip), date);
+			int rowAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
+			if (rowAffected == 1) {
+				ResultSet resultSet = statement.getGeneratedKeys();
+				if (resultSet.next())
+					ContactId = resultSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException exception) {
+				exception.printStackTrace();
+			}
 
+		}
+		try (Statement statement = connection.createStatement()) {
+			String sql = String.format("INSERT INTO address_Book (ContactId,AddressBookName,Type) " + "VALUES ('%s','%s','%s')",
+					ContactId, bookName, type);
+			int rowAffected = statement.executeUpdate(sql);
+			if (rowAffected == 1) {
+				contact = new Contact(firstName, lastName, address, city, state, Long.parseLong(zip), Long.parseLong(phoneNumber),
+						email);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException exception) {
+				exception.printStackTrace();
+			}
+
+		}
+		try {
+			connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (connection != null) 
+			try{
+				connection.close();
+			}catch (SQLException E) {
+				E.printStackTrace();
+			}
+		}
+		return contact;
+	}
 }
+
+

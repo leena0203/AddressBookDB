@@ -43,4 +43,11 @@ public class AddressBookDBTest {
 		List<Contact> resultList = test.getContactForCityAndState("Cochin","Kerala");
 		assertEquals(2, resultList.size());
 	}
+	@Test
+	public void givenContactInDB_WhenAdded_ShouldBeAddedInSingleTransaction() throws SQLException {
+		test.addContactInDatabase("Mill", "Zack", "Candolim", "Panji", "Goa",
+                                               "9456321178", "mill@in.com", "4328879",LocalDate.of(2019, 07, 8), "Book1", "Professional");
+		boolean result = test.checkContactDataSync("Mill");
+		assertTrue(result);
+	}
 }
