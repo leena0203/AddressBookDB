@@ -109,5 +109,9 @@ public class AddressBookServiceDB {
 				Date.valueOf(start), Date.valueOf(end));
 		return this.getContactData(sql);
 	}
+	public List<Contact> getContactForCityAndState(String city, String state) {
+		String sql = String.format("select * from contact where CITY = 'Cochin' order by First_Name,Last_name;",city, state);
+		return this.getContactData(sql);
+	}
 
 }

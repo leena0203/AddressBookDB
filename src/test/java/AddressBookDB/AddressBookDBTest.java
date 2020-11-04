@@ -38,4 +38,9 @@ public class AddressBookDBTest {
 	    testData = test.readContactForDateRange(start, end);
 	    assertEquals(3, testData.size());
 	}
+	@Test
+	public void givenAddressBookInDB_WhenRetrievedForCityAndState_ShouldMatchContactCount() {
+		List<Contact> resultList = test.getContactForCityAndState("Cochin","Kerala");
+		assertEquals(2, resultList.size());
+	}
 }

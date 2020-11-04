@@ -188,6 +188,15 @@ public class AddressBookService {
 	public List<Contact> readContactForDateRange(LocalDate start, LocalDate end) {
 		return addressBookDB.getContactForDateRange(start, end);
 	}
+	/**
+	 * Retrive contact based on city and state
+	 * @param city
+	 * @param state
+	 * @return
+	 */
+	public List<Contact> getContactForCityAndState(String city, String state) {
+		return addressBookDB.getContactForCityAndState(city, state);
+	}
 }
 
 
