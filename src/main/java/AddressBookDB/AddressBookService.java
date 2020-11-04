@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,18 +19,19 @@ import com.google.gson.JsonStreamParser;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
+
 public class AddressBookService {
-	
+
 	public static String FILE = "AddressBook.txt";
 	public static String CSVFILE = "AddressBook.csv";
 	public static String GSONFILE = "AddressBook.gson";
 	public enum IOService {
 		CONSOLE_IO, FILE_IO, DB_IO, REST_IO
 	};
-	
-    List<Contact> contactList = new ArrayList<>();
+
+	List<Contact> contactList = new ArrayList<>();
 	private AddressBookServiceDB addressBookDB;
-	
+
 	public AddressBookService() {
 		addressBookDB = AddressBookServiceDB.getInstance();
 	}
@@ -68,15 +70,15 @@ public class AddressBookService {
 			CSVWriter writer = new CSVWriter(outputfile);
 			List<String[]> data = new ArrayList<String[]>();
 			String[] header = { "First Name", "Last Name", "Address", "City", "State", "ZIP", "Phone Number",
-					"Email ID" };
+			"Email ID" };
 			data.add(header);
 			addressBookMap.values().stream().map(entry -> entry.getAddressBook())
-					.forEach(entryt -> entryt.forEach(person -> {
-						String[] personData = { person.getFirstName(), person.getLastName(), person.getAddress(),
-								person.getCity(), person.getState(), Long.toString(person.getZip()),
-								Long.toString(person.getPhoneNumber()), person.getEmailId() };
-						data.add(personData);
-					}));
+			.forEach(entryt -> entryt.forEach(person -> {
+				String[] personData = { person.getFirstName(), person.getLastName(), person.getAddress(),
+						person.getCity(), person.getState(), Long.toString(person.getZip()),
+						Long.toString(person.getPhoneNumber()), person.getEmailId() };
+				data.add(personData);
+			}));
 
 			writer.writeAll(data);
 			writer.close();
@@ -111,14 +113,14 @@ public class AddressBookService {
 			Gson gson = new Gson();
 			FileWriter writer = new FileWriter(GSONFILE);
 			addressBookMap.values().stream().map(entry -> entry.getAddressBook())
-					.forEach(listEntry -> listEntry.forEach(contact -> {
-						String json = gson.toJson(contact);
-						try {
-							writer.write(json);
-						} catch (IOException exception) {
-							exception.printStackTrace();
-						}
-					}));
+			.forEach(listEntry -> listEntry.forEach(contact -> {
+				String json = gson.toJson(contact);
+				try {
+					writer.write(json);
+				} catch (IOException exception) {
+					exception.printStackTrace();
+				}
+			}));
 			writer.close();
 			System.out.println("Data entered successfully to addressbook.json file.");
 		} catch (IOException exception) {
@@ -148,6 +150,35 @@ public class AddressBookService {
 		}
 		return this.contactList;
 	}
-
+	/**
+	 * Update contact info
+	 * @param firstName
+	 * @param address
+	 * @throws SQLException 
+	 */
+	public void updateContactAddress(String firstName, String phoneNumber) throws SQLException {
+		int result = addressBookDB.updateContactData(firstName, phoneNumber);	
+		if (result == 0)
+			return;
+		Contact contact = this.getContactData(firstName);
+		if (contact != null) contact.phoneNumber = Long.parseLong(phoneNumber);
+	}
+	private Contact getContactData(String firstName) {
+		return this.contactList.stream()
+				.filter(contactData -> contactData.firstName.equals(firstName))
+				.findFirst()
+				.orElse(null);
+	}
+	/**
+	 * check contact to sync with DB
+	 * @param firstName
+	 * @return
+	 */
+	public boolean checkContactDataSync(String firstName) {
+		List<Contact> list = addressBookDB.getContactFromData(firstName);
+		return list.get(0).equals(getContactData(firstName));
+	}
 }
+
+
 

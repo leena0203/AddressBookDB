@@ -1,7 +1,9 @@
 package AddressBookDB;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.junit.Before;
@@ -22,5 +24,10 @@ public class AddressBookDBTest {
 	public void givenAddressBookInDB_WhenRetrieved_ShouldMatchContactCount() {
 		assertEquals(7, testData.size());
 	}
-
+	@Test
+	public void givenUpdateInfo_WhenAddedInAddressBook_ShouldSyncWithDB() throws SQLException {
+		test.updateContactAddress("Alex", "9430298574");
+		boolean result = test.checkContactDataSync("Alex");
+		assertTrue(result);
+	}
 }

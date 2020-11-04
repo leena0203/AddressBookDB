@@ -3,6 +3,7 @@ package AddressBookDB;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,6 +14,7 @@ import java.util.List;
 
 public class AddressBookServiceDB {
 	private static AddressBookServiceDB addressBookDB;
+	private static PreparedStatement contactStatement;
 	public AddressBookServiceDB() {
 
 	}
@@ -36,13 +38,21 @@ public class AddressBookServiceDB {
 		String sql = "select Contact.ContactId, Contact.First_Name, Contact.Last_Name, Contact.Phone_No, Contact.Email, Contact.ZIP, Contact.CITY, Contact.STATE, Contact.Address, Address_Book.BookId, Address_Book.AddressBookName, Address_Book.Type from Contact inner join Address_Book on Contact.ContactId = Address_Book.ContactId;" ;
 		return this.getContactData(sql);
 	}
-
-
-	private List<Contact> getContactData(String sql) {
+	List<Contact> getContactData(String sql)  {
 		List<Contact> contactList = new ArrayList<>();
 		try (Connection connection = this.getConnection()) {
 			Statement statement = connection.createStatement();
 			ResultSet resultSet = statement.executeQuery(sql);
+			contactList = this.getContactData(resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contactList;			
+	}
+
+	private List<Contact> getContactData(ResultSet resultSet) {
+		List<Contact> contactList = new ArrayList<>();
+		try (Connection connection = this.getConnection()) {
 			while (resultSet.next()) {
 				String fname = resultSet.getString("First_Name");
 				String lname = resultSet.getString("Last_Name");
@@ -58,6 +68,38 @@ public class AddressBookServiceDB {
 			e.printStackTrace();
 		}
 		return contactList;		
+	}
+	public int updateContactData(String firstName, String phoneNumber) throws SQLException {
+		return this.updatePersonsDataUsingPreparedStatement(firstName, phoneNumber);
+	}
+	private int updatePersonsDataUsingPreparedStatement(String firstName, String phoneNumber) throws SQLException {
+		String sql = "Update contact set Phone_No = ? where First_Name = ?";
+		int result = 0;
+		List<Contact> contactList = null;
+		if (this.contactStatement == null) {
+			Connection connection = this.getConnection();
+			contactStatement = connection.prepareStatement(sql);
+		}
+		try {
+			contactStatement.setLong(1, Long.parseLong(phoneNumber));
+			contactStatement.setString(2,firstName);
+			result = contactStatement.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public List<Contact> getContactFromData(String firstName) {
+		String sql = String.format("SELECT * FROM contact WHERE First_Name = '%s'", firstName);
+		List<Contact> contactList = new ArrayList<>();
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			contactList = this.getContactData(resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contactList;	
 	}
 
 }
