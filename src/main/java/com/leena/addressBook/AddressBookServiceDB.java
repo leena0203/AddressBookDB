@@ -36,6 +36,10 @@ public class AddressBookServiceDB {
 		System.out.println("Connection is successful: " + connection);
 		return connection;
 	}
+	/**
+	 * Read contact from database
+	 * @return
+	 */
 	public List<Contact> readData()  {
 		String sql = "select Contact.ContactId, Contact.First_Name, Contact.Last_Name, Contact.Phone_No, Contact.Email, Contact.ZIP, Contact.CITY, Contact.STATE, Contact.Address, Address_Book.AddressBookName, Address_Book.Type from Contact inner join Address_Book on Contact.ContactId = Address_Book.ContactId;" ;
 		return this.getContactData(sql);
@@ -103,16 +107,44 @@ public class AddressBookServiceDB {
 		}
 		return contactList;	
 	}
+	/**
+	 * get contacts added in specific range
+	 * @param start
+	 * @param end
+	 * @return
+	 */
 	public List<Contact> getContactForDateRange(LocalDate start, LocalDate end) {
 		String sql = String.format(
 				"select Contact.ContactId, Contact.First_Name, Contact.Last_Name, Contact.Phone_No, Contact.Email, Contact.ZIP, Contact.CITY, Contact.STATE, Contact.Address, Contact.date, Address_Book.AddressBookName, Address_Book.Type from Contact inner join Address_Book on Contact.ContactId = Address_Book.ContactId where date between '%s' and '%s'",
 				Date.valueOf(start), Date.valueOf(end));
 		return this.getContactData(sql);
 	}
+	/**
+	 * Retrive contacts inputed in given city 
+	 * @param city
+	 * @param state
+	 * @return
+	 */
 	public List<Contact> getContactForCityAndState(String city, String state) {
 		String sql = String.format("select * from contact where CITY = 'Cochin' order by First_Name,Last_name;",city, state);
 		return this.getContactData(sql);
 	}
+	/**
+	 * add new contact in database
+	 * @param firstName
+	 * @param lastName
+	 * @param address
+	 * @param city
+	 * @param state
+	 * @param phoneNumber
+	 * @param email
+	 * @param zip
+	 * @param date
+	 * @param bookName
+	 * @param type
+	 * @return
+	 * @throws SQLException
+	 */
 	public Contact addContact(String firstName, String lastName, String address, String city, String state,
 			String phoneNumber, String email,String zip, LocalDate date, String bookName, String type) throws SQLException {
 		int ContactId = -1;
