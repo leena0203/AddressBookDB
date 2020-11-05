@@ -1,4 +1,4 @@
-package AddressBookDB;
+package com.leena.addressBook;
 
 public class Contact {
 	public String firstName;
@@ -69,6 +69,10 @@ public class Contact {
 		this.phoneNumber = phoneNumber;
 		this.emailId = emailId;
 		
+	}
+	public Contact(String firstName2, String lastName2, String address2, String city2, String state2, long parseLong,
+			String email, long parseLong2) {
+		// TODO Auto-generated constructor stub
 	}
 	@Override
 	public String toString() {

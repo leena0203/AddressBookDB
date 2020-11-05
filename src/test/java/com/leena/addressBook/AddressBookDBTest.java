@@ -1,4 +1,4 @@
-package AddressBookDB;
+package com.leena.addressBook;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -10,7 +10,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import AddressBookDB.AddressBookService.IOService;
+import com.leena.addressBook.AddressBookService;
+import com.leena.addressBook.Contact;
+import com.leena.addressBook.AddressBookService.IOService;
 
 
 public class AddressBookDBTest {

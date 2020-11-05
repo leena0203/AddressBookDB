@@ -1,4 +1,4 @@
-package AddressBookDB;
+package com.leena.addressBook;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -147,8 +147,7 @@ public class AddressBookServiceDB {
 					ContactId, bookName, type);
 			int rowAffected = statement.executeUpdate(sql);
 			if (rowAffected == 1) {
-				contact = new Contact(firstName, lastName, address, city, state, Long.parseLong(zip), Long.parseLong(phoneNumber),
-						email);
+				contact = new Contact(firstName, lastName, address, city, state, Long.parseLong(zip),email, Long.parseLong(phoneNumber));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

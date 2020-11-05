@@ -1,4 +1,4 @@
-package AddressBookDB;
+package com.leena.addressBook;
 
 import java.util.ArrayList;
 import java.util.List;
