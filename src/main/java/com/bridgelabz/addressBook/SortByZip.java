@@ -1,4 +1,4 @@
-package com.leena.addressBook;
+package com.bridgelabz.addressBook;
 
 import java.util.Comparator;
 

@@ -1,4 +1,4 @@
-package com.leena.addressBook;
+package com.bridgelabz.addressBook;
 
 import java.util.ArrayList;
 import java.util.List;

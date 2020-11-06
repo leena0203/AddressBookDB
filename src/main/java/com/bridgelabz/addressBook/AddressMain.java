@@ -1,4 +1,5 @@
-package com.leena.addressBook;
+package com.bridgelabz.addressBook;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -139,7 +140,11 @@ public class AddressMain extends AddressBook {
 				sc.nextLine();
 				System.out.println("Enter the email");
 				String email = sc.nextLine();
-				Contact contactObj = new Contact(firstName, lastName, address, city, state, zip, phoneNumber, email);
+				int contId = 0;
+				LocalDate date = null;
+				String bookName = null;
+				String type = null;
+				Contact contactObj = new Contact(contId, firstName, lastName, address, city, state, phoneNumber, email,zip, date, bookName, type);
 				for (Map.Entry<String,AddressBook> entry : addressBookMap.entrySet()) {   
 					if(entry.getKey().equalsIgnoreCase(city)) {
 						entry.getValue().addContact(contactObj);

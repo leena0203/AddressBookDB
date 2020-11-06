@@ -1,4 +1,6 @@
-package com.leena.addressBook;
+package com.bridgelabz.addressBook;
+
+import java.time.LocalDate;
 
 public class Contact {
 	public String firstName;
@@ -9,6 +11,10 @@ public class Contact {
 	public long zip;
 	public long phoneNumber;
 	public String emailId;
+	private int contactId;
+	private String addbookName;
+	private String type;
+	private static LocalDate date;
 	public String getFirstName() {
 		return firstName;
 	}
@@ -57,8 +63,8 @@ public class Contact {
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
-	public Contact(String firstName, String lastName, String address, String city, String state, long zip,
-			       long phoneNumber, String emailId) {
+	public Contact(int contId, String firstName, String lastName, String address, String city, String state, long phoneNumber,
+			       String email, long zip) {
 		super();
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -67,13 +73,24 @@ public class Contact {
 		this.state = state;
 		this.zip = zip;
 		this.phoneNumber = phoneNumber;
-		this.emailId = emailId;
+		this.emailId = email;
+		this.contactId = contId;
 		
 	}
-	public Contact(String firstName2, String lastName2, String address2, String city2, String state2, long parseLong,
-			String email, long parseLong2) {
-		// TODO Auto-generated constructor stub
+	public Contact(int contId, String firstName, String lastName, String address, String state, String city,
+			 long phoneNumber, String email, long zip, LocalDate date) {
+		this(contId, firstName, lastName, address, city, state, phoneNumber, email, zip);
+		this.date = date;
 	}
+	public Contact(int contId, String firstName, String lastName, String address, String state, String city,
+			long phoneNumber, String email, long zip,LocalDate date, String addbookName, String type) {
+		this(contId, firstName, lastName, address, city, state, phoneNumber, email, zip, date);
+		this.addbookName = addbookName;
+		this.type = type;
+		
+	}
+	
+	
 	@Override
 	public String toString() {
 		String details = "First Name : " + firstName + "\nLast Name : " + lastName + "\nAddress : " + address + "\nCity : " + city 

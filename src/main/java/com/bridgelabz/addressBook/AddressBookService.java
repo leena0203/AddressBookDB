@@ -1,4 +1,4 @@
-package com.leena.addressBook;
+package com.bridgelabz.addressBook;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -177,7 +177,9 @@ public class AddressBookService {
 	 */
 	public boolean checkContactDataSync(String firstName) {
 		List<Contact> list = addressBookDB.getContactFromData(firstName);
+		System.out.println(list);
 		return list.get(0).equals(getContactData(firstName));
+
 	}
 	/**
 	 * Find contact registered in specific period
@@ -194,14 +196,29 @@ public class AddressBookService {
 	 * @param state
 	 * @return
 	 */
-	public List<Contact> getContactForCityAndState(String city, String state) {
-		return addressBookDB.getContactForCityAndState(city, state);
+	public List<Contact> getContactForCity(String city) {
+		return addressBookDB.getContactForCity(city);
+	}
+	/**
+	 * Add new contact in database
+	 * @param firstName
+	 * @param lastName
+	 * @param address
+	 * @param city
+	 * @param state
+	 * @param phoneNumber
+	 * @param email
+	 * @param zip
+	 * @param date
+	 * @param bookName
+	 * @throws SQLException
+	 */
+	public void addContactInDatabase(String firstName, String lastName, String address, String city , String state,
+			long phoneNumber, String email , long zip, LocalDate date,List<String> bookName) throws SQLException {
+		addressBookDB.addNewContact(firstName, lastName, address,city,state,phoneNumber,email,zip, date,bookName);
 	}
 
-	public void addContactInDatabase(String firstName, String lastName, String address, String city , String state,
-			String phoneNumber, String email , String zip, LocalDate date, String bookName, String type) throws SQLException {
-		this.contactList.add(addressBookDB.addContact(firstName, lastName, address,city,state,phoneNumber,email,zip, date,bookName,type));
-	}
+
 }
 
 
