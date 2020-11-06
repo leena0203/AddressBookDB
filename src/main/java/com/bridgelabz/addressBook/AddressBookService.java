@@ -11,8 +11,11 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.collections4.map.HashedMap;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -218,7 +221,43 @@ public class AddressBookService {
 		addressBookDB.addNewContact(firstName, lastName, address,city,state,phoneNumber,email,zip, date,bookName);
 	}
 
+	public void addMultipleContacts(List<Contact> multipleContacts) throws DatabaseException {
+        Map<Integer, Boolean> contactAddedStatus = new HashedMap<>();
+        multipleContacts.forEach(contact -> {
+        	Runnable task = () -> {
+        		contactAddedStatus.put(contact.hashCode(), false);
+        		System.out.println("Contact Added: "+Thread.currentThread().getName());
+        try {
+        	addContactInDatabase(contact.getFirstName(), contact.getLastName(), contact.getAddress(), contact.getCity() , contact.getState(),
+        			contact.getPhoneNumber(), contact.getEmailId() , contact.getZip(), contact.getDate(), Arrays.asList(contact.getType()));
+        }catch (SQLException e) {
+			e.printStackTrace();
+		}
+        contactAddedStatus.put(contact.hashCode(), true);
+        System.out.println("Contact Added: "+Thread.currentThread().getName());
+        	};
+        	Thread thread = new Thread(task, contact.firstName);
+        	thread.start();
+        });
+        while(contactAddedStatus.containsValue(false)) {
+        	try {
+        		Thread.sleep(10);
+        	}catch (InterruptedException e) {
+        		e.printStackTrace();
+        	}
+        }
+	}
 
+	public boolean checkMultipleContactDataSync(List<String> fnamelist) {
+		List<Boolean> resultList = new ArrayList<>();
+		fnamelist.forEach(firstName -> {
+			resultList.add(checkContactDataSync(firstName));
+		});
+		if (resultList.contains(false)) {
+			return false;
+		}
+		return true;
+	}
 }
 
 
