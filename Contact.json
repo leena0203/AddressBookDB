@@ -13,8 +13,48 @@
       "date": {
         "year": 2020,
         "month": 3,
-        "day": 12      },
+        "day": 12
+      },
       "id": 3
+    },
+    {
+      "firstName": "Alex",
+      "lastName": "Zuster",
+      "address": "Andheri",
+      "city": "Maharashtra",
+      "state": "Mumbai",
+      "zip": 392092,
+      "phoneNumber": 1145632786,
+      "emailId": "alex@in.co",
+      "contactId": 0,
+      "addId": 2,
+      "id": 4
+    },
+    {
+      "firstName": "Peter",
+      "lastName": "Albert",
+      "address": "MarcusStreet",
+      "city": "Kerala",
+      "state": "Cochin",
+      "zip": 265092,
+      "phoneNumber": 1432789043,
+      "emailId": "peter@in.co",
+      "contactId": 0,
+      "addId": 2,
+      "id": 5
+    },
+    {
+      "firstName": "Samuel",
+      "lastName": "Marcus",
+      "address": "PetaLane",
+      "city": "Kerala",
+      "state": "Cochin",
+      "zip": 365092,
+      "phoneNumber": 1134567321,
+      "emailId": "samuel@in.co",
+      "contactId": 0,
+      "addId": 2,
+      "id": 6
     }
   ]
 }

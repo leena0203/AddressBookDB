@@ -14,6 +14,7 @@ public class Contact {
 	private int contactId;
 	private String addbookName;
 	private String type;
+	private int addId;
 	private static LocalDate date;
 	public String getFirstName() {
 		return firstName;
@@ -63,17 +64,21 @@ public class Contact {
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
 	}
+	public Contact(String firstName, String lastName, String address, String city, String state, long phoneNumber,
+		       String email, long zip) {
+	super();
+	this.firstName = firstName;
+	this.lastName = lastName;
+	this.address = address;
+	this.city = city;
+	this.state = state;
+	this.zip = zip;
+	this.phoneNumber = phoneNumber;
+	this.emailId = email;
+}
 	public Contact(int contId, String firstName, String lastName, String address, String city, String state, long phoneNumber,
 			       String email, long zip) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.address = address;
-		this.city = city;
-		this.state = state;
-		this.zip = zip;
-		this.phoneNumber = phoneNumber;
-		this.emailId = email;
+		this(firstName, lastName, address, city, state, phoneNumber, email, zip);
 		this.contactId = contId;
 		
 	}
@@ -90,6 +95,13 @@ public class Contact {
 		
 	}
 	
+	public Contact(String firstName, String lastName, String address, String state, String city,
+			 long phoneNumber, String email, long zip, LocalDate date, int addId) {
+		this(firstName, lastName, address, city, state, phoneNumber, email, zip);
+		this.date = date;
+		this.addId = addId;
+	}
+		
 	@Override
 	public String toString() {
 		String details = "First Name : " + firstName + "\nLast Name : " + lastName + "\nAddress : " + address + "\nCity : " + city 

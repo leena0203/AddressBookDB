@@ -300,4 +300,14 @@ public class AddressBookService {
 	public long countEntries(IOService ioService) {
 		return contactList.size();
 	}
+
+	/**
+	 * Add multiple contacts in json file
+	 * 
+	 * @param newContact
+	 */
+	public void addContactToAddressBook(Contact newContact) {
+		contactList.add(newContact);
+
+	}
 }
