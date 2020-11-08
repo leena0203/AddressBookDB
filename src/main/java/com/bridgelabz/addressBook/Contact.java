@@ -11,10 +11,11 @@ public class Contact {
 	public long zip;
 	public long phoneNumber;
 	public String emailId;
-	private int contactId;
+	int contactId;
 	private String addbookName;
 	private String type;
 	private int addId;
+	public String id;
 	private static LocalDate date;
 	public String getFirstName() {
 		return firstName;

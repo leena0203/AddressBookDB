@@ -111,7 +111,7 @@ public class AddressBookServiceDB {
 	 * @return
 	 * @throws SQLException
 	 */
-	public int updateContactData(String firstName, String phoneNumber) throws SQLException {
+	public int updateContactData(String firstName, long phoneNumber) throws SQLException {
 		return this.updatePersonsDataUsingPreparedStatement(firstName, phoneNumber);
 	}
 
@@ -123,7 +123,7 @@ public class AddressBookServiceDB {
 	 * @return
 	 * @throws SQLException
 	 */
-	private int updatePersonsDataUsingPreparedStatement(String firstName, String phoneNumber) throws SQLException {
+	private int updatePersonsDataUsingPreparedStatement(String firstName, long phoneNumber) throws SQLException {
 		String sql = "Update contacts set phone_No = ? where first_Name = ?";
 		int result = 0;
 		List<Contact> contactList = null;
@@ -132,7 +132,7 @@ public class AddressBookServiceDB {
 			contactStatement = connection.prepareStatement(sql);
 		}
 		try {
-			contactStatement.setLong(1, Long.parseLong(phoneNumber));
+			contactStatement.setLong(1, phoneNumber);
 			contactStatement.setString(2, firstName);
 			result = contactStatement.executeUpdate();
 		} catch (Exception e) {
@@ -260,4 +260,5 @@ public class AddressBookServiceDB {
 			}
 		}
 	}
+
 }

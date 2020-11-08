@@ -24,7 +24,7 @@
       "city": "Maharashtra",
       "state": "Mumbai",
       "zip": 392092,
-      "phoneNumber": 1145632786,
+      "phoneNumber": 1984039275,
       "emailId": "alex@in.co",
       "contactId": 0,
       "addId": 2,
@@ -55,6 +55,45 @@
       "contactId": 0,
       "addId": 2,
       "id": 6
+    },
+    {
+      "firstName": "Alex",
+      "lastName": "Zuster",
+      "address": "Andheri",
+      "city": "Maharashtra",
+      "state": "Mumbai",
+      "zip": 392092,
+      "phoneNumber": 1145632786,
+      "emailId": "alex@in.co",
+      "contactId": 0,
+      "addId": 2,
+      "id": 7
+    },
+    {
+      "firstName": "Peter",
+      "lastName": "Albert",
+      "address": "MarcusStreet",
+      "city": "Kerala",
+      "state": "Cochin",
+      "zip": 265092,
+      "phoneNumber": 1432789043,
+      "emailId": "peter@in.co",
+      "contactId": 0,
+      "addId": 2,
+      "id": 8
+    },
+    {
+      "firstName": "Samuel",
+      "lastName": "Marcus",
+      "address": "PetaLane",
+      "city": "Kerala",
+      "state": "Cochin",
+      "zip": 365092,
+      "phoneNumber": 1134567321,
+      "emailId": "samuel@in.co",
+      "contactId": 0,
+      "addId": 2,
+      "id": 9
     }
   ]
 }

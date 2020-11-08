@@ -170,16 +170,18 @@ public class AddressBookService {
 	 * @param address
 	 * @throws SQLException
 	 */
-	public void updateContactAddress(String firstName, String phoneNumber) throws SQLException {
+	public void updateContactPhone(String firstName, long phoneNumber, IOService ioService) throws SQLException {
+		if (ioService.equals(IOService.DB_IO)) {
 		int result = addressBookDB.updateContactData(firstName, phoneNumber);
 		if (result == 0)
 			return;
+		}
 		Contact contact = this.getContactData(firstName);
 		if (contact != null)
-			contact.phoneNumber = Long.parseLong(phoneNumber);
+			contact.phoneNumber = phoneNumber;
 	}
 
-	private Contact getContactData(String firstName) {
+	public Contact getContactData(String firstName) {
 		return this.contactList.stream().filter(contactData -> contactData.firstName.equals(firstName)).findFirst()
 				.orElse(null);
 	}
@@ -310,4 +312,6 @@ public class AddressBookService {
 		contactList.add(newContact);
 
 	}
+
+	
 }
