@@ -1,49 +1,6 @@
 {
   "Contact": [
     {
-      "firstName": "Leena",
-      "lastName": "Sarode",
-      "address": "Kalamboli",
-      "city": "Navi Mumbai",
-      "state": "Maharashtra",
-      "zip": 410210,
-      "phoneNumber": 2132124321,
-      "email": "leena@gmail.com",
-      "addId": 2,
-      "date": {
-        "year": 2020,
-        "month": 3,
-        "day": 12
-      },
-      "id": 3
-    },
-    {
-      "firstName": "Alex",
-      "lastName": "Zuster",
-      "address": "Andheri",
-      "city": "Maharashtra",
-      "state": "Mumbai",
-      "zip": 392092,
-      "phoneNumber": 1984039275,
-      "emailId": "alex@in.co",
-      "contactId": 0,
-      "addId": 2,
-      "id": 4
-    },
-    {
-      "firstName": "Peter",
-      "lastName": "Albert",
-      "address": "MarcusStreet",
-      "city": "Kerala",
-      "state": "Cochin",
-      "zip": 265092,
-      "phoneNumber": 1432789043,
-      "emailId": "peter@in.co",
-      "contactId": 0,
-      "addId": 2,
-      "id": 5
-    },
-    {
       "firstName": "Samuel",
       "lastName": "Marcus",
       "address": "PetaLane",
@@ -55,32 +12,6 @@
       "contactId": 0,
       "addId": 2,
       "id": 6
-    },
-    {
-      "firstName": "Alex",
-      "lastName": "Zuster",
-      "address": "Andheri",
-      "city": "Maharashtra",
-      "state": "Mumbai",
-      "zip": 392092,
-      "phoneNumber": 1145632786,
-      "emailId": "alex@in.co",
-      "contactId": 0,
-      "addId": 2,
-      "id": 7
-    },
-    {
-      "firstName": "Peter",
-      "lastName": "Albert",
-      "address": "MarcusStreet",
-      "city": "Kerala",
-      "state": "Cochin",
-      "zip": 265092,
-      "phoneNumber": 1432789043,
-      "emailId": "peter@in.co",
-      "contactId": 0,
-      "addId": 2,
-      "id": 8
     },
     {
       "firstName": "Samuel",

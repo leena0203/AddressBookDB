@@ -80,15 +80,15 @@ public class AddressBookService {
 			CSVWriter writer = new CSVWriter(outputfile);
 			List<String[]> data = new ArrayList<String[]>();
 			String[] header = { "First Name", "Last Name", "Address", "City", "State", "ZIP", "Phone Number",
-					"Email ID" };
+			"Email ID" };
 			data.add(header);
 			addressBookMap.values().stream().map(entry -> entry.getAddressBook())
-					.forEach(entryt -> entryt.forEach(person -> {
-						String[] personData = { person.getFirstName(), person.getLastName(), person.getAddress(),
-								person.getCity(), person.getState(), Long.toString(person.getZip()),
-								Long.toString(person.getPhoneNumber()), person.getEmailId() };
-						data.add(personData);
-					}));
+			.forEach(entryt -> entryt.forEach(person -> {
+				String[] personData = { person.getFirstName(), person.getLastName(), person.getAddress(),
+						person.getCity(), person.getState(), Long.toString(person.getZip()),
+						Long.toString(person.getPhoneNumber()), person.getEmailId() };
+				data.add(personData);
+			}));
 
 			writer.writeAll(data);
 			writer.close();
@@ -124,14 +124,14 @@ public class AddressBookService {
 			Gson gson = new Gson();
 			FileWriter writer = new FileWriter(GSONFILE);
 			addressBookMap.values().stream().map(entry -> entry.getAddressBook())
-					.forEach(listEntry -> listEntry.forEach(contact -> {
-						String json = gson.toJson(contact);
-						try {
-							writer.write(json);
-						} catch (IOException exception) {
-							exception.printStackTrace();
-						}
-					}));
+			.forEach(listEntry -> listEntry.forEach(contact -> {
+				String json = gson.toJson(contact);
+				try {
+					writer.write(json);
+				} catch (IOException exception) {
+					exception.printStackTrace();
+				}
+			}));
 			writer.close();
 			System.out.println("Data entered successfully to addressbook.json file.");
 		} catch (IOException exception) {
@@ -172,9 +172,9 @@ public class AddressBookService {
 	 */
 	public void updateContactPhone(String firstName, long phoneNumber, IOService ioService) throws SQLException {
 		if (ioService.equals(IOService.DB_IO)) {
-		int result = addressBookDB.updateContactData(firstName, phoneNumber);
-		if (result == 0)
-			return;
+			int result = addressBookDB.updateContactData(firstName, phoneNumber);
+			if (result == 0)
+				return;
 		}
 		Contact contact = this.getContactData(firstName);
 		if (contact != null)
@@ -313,5 +313,16 @@ public class AddressBookService {
 
 	}
 
-	
+	/**
+	 * deleteContactFromTable
+	 * 
+	 * @param firstName
+	 * @param ioService
+	 */
+	public void deleteContact(String firstName, IOService ioService) {
+		if (ioService.equals(IOService.REST_IO)) {
+			Contact contact = this.getContactData(firstName);
+			contactList.remove(contact);
+		}
+	}
 }
