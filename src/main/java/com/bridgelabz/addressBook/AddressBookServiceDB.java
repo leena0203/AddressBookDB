@@ -31,7 +31,7 @@ public class AddressBookServiceDB {
 	}
 
 	private Connection getConnection() throws SQLException {
-		String jdbcURL = "jdbc:mysql://localhost:3306/addressbook__service?useSSL=false";
+		String jdbcURL = "jdbc:mysql://localhost:3306/addressbook__service?allowPublicKeyRetrieval=true&useSSL=false";
 		String userName = "root";
 		String password = "Sql@2020sql";
 		Connection connection;

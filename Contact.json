@@ -1,0 +1,20 @@
+{
+  "Contact": [
+    {
+      "firstName": "Leena",
+      "lastName": "Sarode",
+      "address": "Kalamboli",
+      "city": "Navi Mumbai",
+      "state": "Maharashtra",
+      "zip": 410210,
+      "phoneNumber": 2132124321,
+      "email": "leena@gmail.com",
+      "addId": 2,
+      "date": {
+        "year": 2020,
+        "month": 3,
+        "day": 12      },
+      "id": 3
+    }
+  ]
+}

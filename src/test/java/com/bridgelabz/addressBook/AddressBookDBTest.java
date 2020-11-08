@@ -14,6 +14,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.bridgelabz.addressBook.AddressBookService.IOService;
+import com.google.gson.Gson;
+
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
 
 
 public class AddressBookDBTest {
@@ -23,37 +27,38 @@ public class AddressBookDBTest {
 	public void setUp() {
 		addressBookService = new AddressBookService();
 	    contactList = addressBookService.readContactData(IOService.DB_IO);
+	    
 	}
-//	@Test
-//	public void givenAddressBookInDB_WhenRetrieved_ShouldMatchContactCount() {
-//		assertEquals(8, contactList.size());
-//	}
-//	@Test
-//	public void givenUpdateInfo_WhenAddedInAddressBook_ShouldSyncWithDB() throws SQLException {
-//		addressBookService.updateContactAddress("Mill", "1234567652");
-//		boolean result = addressBookService.checkContactDataSync("Mill");
-//		assertTrue(result);
-//	}
-//	@Test
-//	public void givenContactInDB_WhenRetrievedForDateRange_ShouldMatchContactCount() {
-//		LocalDate start = LocalDate.of(2019, 07, 01);
-//	    LocalDate end = LocalDate.now();
-//	    contactList = addressBookService.readContactForDateRange(start, end);
-//	    assertEquals(8, contactList.size());
-//	}
-//	@Test
-//	public void givenAddressBookInDB_WhenRetrievedForCityAndState_ShouldMatchContactCount() {
-//		List<Contact> resultList = addressBookService.getContactForCity("Panji");
-//		assertEquals(8, resultList.size());
-//	}
-//	@Test
-//	public void givenContactInDB_WhenAdded_ShouldBeAddedInSingleTransaction() throws SQLException {
-//		addressBookService.addContactInDatabase("Leena", "Sarode", "Kalamboli", "NaviMumbai", "Maharashtra",
-//				1928736527 , "leena@in.com", 410218,LocalDate.of(2020, 04, 3), Arrays.asList("professional"));
-//		contactList = addressBookService.readContactData(IOService.DB_IO);
-//		boolean expected = addressBookService.checkContactDataSync("Leena");
-//		assertTrue(expected);
-//	}
+	@Test
+	public void givenAddressBookInDB_WhenRetrieved_ShouldMatchContactCount() {
+		assertEquals(8, contactList.size());
+	}
+	@Test
+	public void givenUpdateInfo_WhenAddedInAddressBook_ShouldSyncWithDB() throws SQLException {
+		addressBookService.updateContactAddress("Mill", "1234567652");
+		boolean result = addressBookService.checkContactDataSync("Mill");
+		assertTrue(result);
+	}
+	@Test
+	public void givenContactInDB_WhenRetrievedForDateRange_ShouldMatchContactCount() {
+		LocalDate start = LocalDate.of(2019, 07, 01);
+	    LocalDate end = LocalDate.now();
+	    contactList = addressBookService.readContactForDateRange(start, end);
+	    assertEquals(8, contactList.size());
+	}
+	@Test
+	public void givenAddressBookInDB_WhenRetrievedForCityAndState_ShouldMatchContactCount() {
+		List<Contact> resultList = addressBookService.getContactForCity("Panji");
+		assertEquals(8, resultList.size());
+	}
+	@Test
+	public void givenContactInDB_WhenAdded_ShouldBeAddedInSingleTransaction() throws SQLException {
+		addressBookService.addContactInDatabase("Leena", "Sarode", "Kalamboli", "NaviMumbai", "Maharashtra",
+				1928736527 , "leena@in.com", 410218,LocalDate.of(2020, 04, 3), Arrays.asList("professional"));
+		contactList = addressBookService.readContactData(IOService.DB_IO);
+		boolean expected = addressBookService.checkContactDataSync("Leena");
+		assertTrue(expected);
+	}
 	@Test
 	public void givenMultipleEntries_WhenAddedUsingThreads_ShouldSyncDB() throws SQLException, DatabaseException {
 		List<Contact> multipleContacts = Arrays.asList(new Contact(0, "Alex", "Zuster", "Andheri", "Mumbai", "Maharashtra",
@@ -72,4 +77,23 @@ public class AddressBookDBTest {
 		assertTrue(expected);
 	}
 	
+	@Before
+	public void setup() {
+		RestAssured.baseURI = "http://localhost";
+		RestAssured.port = 3000;
+	}
+	private Contact[]  getContactList() {
+		Response response = RestAssured.get("/Contact");
+		System.out.println("Contact entries in JSONServer:\n" + response.asString());
+		Contact[] arrayOfContacts = new Gson().fromJson(response.asString(), Contact[].class);
+		return arrayOfContacts;
+	}
+	@Test
+	public void givenContactDataInJsonServer_WhenRetrieved_ShouldMactCount() {
+		Contact[] arrayOfContacts = getContactList();
+		AddressBookService addressBookService = new AddressBookService(Arrays.asList(arrayOfContacts));
+		long entries = addressBookService.countEntries(IOService.REST_IO);
+		assertEquals(1, entries);
+		
+	}
 }

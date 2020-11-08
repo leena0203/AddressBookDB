@@ -41,6 +41,10 @@ public class AddressBookService {
 		addressBookDB = AddressBookServiceDB.getInstance();
 	}
 
+	public AddressBookService(List<Contact> list) {
+		this.contactList = new ArrayList<Contact>(list);
+	}
+
 	public void writeData(Map<String, AddressBook> addressBookMap) {
 		StringBuffer employeeBuffer = new StringBuffer();
 		for (Map.Entry<String, AddressBook> entry : addressBookMap.entrySet()) {
@@ -285,5 +289,15 @@ public class AddressBookService {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Countries entries in json file
+	 * 
+	 * @param ioService
+	 * @return
+	 */
+	public long countEntries(IOService ioService) {
+		return contactList.size();
 	}
 }
